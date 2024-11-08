@@ -25,6 +25,17 @@ export class MapApp {
     this.yandexMap.addMark();
 
     this.subscribeForStoreService();
+    console.debug(
+      "Тут будем реализовывать логику нашего виджета, вот готовый стор сервис ->",
+      this.storeService
+    );
+    setTimeout(() => {
+      this.storeService.updateStore("addMarkers", [
+        { id: 33144, value: "test" },
+        { id: 33145, value: "test1" },
+        { id: 33147, value: "test2" },
+      ]);
+    }, 5000);
   }
 
   handleMarkersChanged() {

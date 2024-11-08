@@ -5,7 +5,10 @@ export class StoreService {
     this.store = createStore(storageName);
     this.actionMap = {
       addMarker: (payload) => this.store.getState().addMarker(payload),
+      //добавила addMarkers, removesMarkers
+      addMarkers: (payload) => this.store.getState().addMarkersList(payload),
       removeMarker: (payload) => this.store.getState().removeMarker(payload),
+      removeMarkers: (payload) => this.store.getState().removeMarkers(payload),
     };
   }
 
