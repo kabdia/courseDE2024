@@ -24,32 +24,56 @@ const IndexPage = () => `
       <title>Home Page</title>
     </head>
     <body>
-      <header>
-        <h1>Welcome to the Home Page</h1>
+      <header>        
       </header>
-      <main>
-        <p>Hello world! 12</p>
+      <main>       
         <div class="isFlex mb16 gap8">
-          ${Button({ text: "Да", iconSlot: CheckIcon(), extraClasses: ["btn--isGreenLightIcon"] })}
-          ${Button({ text: "Нет", iconSlot: CancelIcon(), extraClasses: ["btn--isRedIcon"] })}
+        <!--  ${Button({ text: "Да", iconSlot: CheckIcon(), extraClasses: ["btn--isGreenLightIcon"] })}
+          ${Button({ text: "Нет", iconSlot: CancelIcon(), extraClasses: ["btn--isRedIcon"] })}-->
         </div>
         <div class="isFlex mb16 gap8">
           ${Switch({
-            label: "Привет мир",
-            extraInputAttrs: [
-              { name: "name", value: "rememberMe" },
-              { name: "form", value: "formAuth" },
-            ],
-          })}
-          
-          ${Switch({
-            label: "Привет мир",
+            label: "Бары",
             extraClasses: ["switch--isRightLabel"],
             extraInputAttrs: [
               { name: "name", value: "rememberMe" },
               { name: "form", value: "formAuth" },
             ],
           })}
+          ${Switch({
+            label: "Рестораны",
+            extraClasses: ["switch--isRightLabel"],
+            extraInputAttrs: [
+              { name: "name", value: "rememberMe" },
+              { name: "form", value: "formAuth" },
+            ],
+          })}
+          ${Switch({
+            label: "ТРК",
+            extraClasses: ["switch--isRightLabel"],
+            extraInputAttrs: [
+              { name: "name", value: "rememberMe" },
+              { name: "form", value: "formAuth" },
+            ],
+          })}
+          ${Switch({
+            label: "Театры",
+            extraClasses: ["switch--isRightLabel"],
+            extraInputAttrs: [
+              { name: "name", value: "rememberMe" },
+              { name: "form", value: "formAuth" },
+            ],
+          })}
+          ${Switch({
+            label: "Кино",
+            extraClasses: ["switch--isRightLabel"],
+            extraInputAttrs: [
+              { name: "name", value: "rememberMe" },
+              { name: "form", value: "formAuth" },
+            ],
+          })}
+          
+          
         </div>
 
         <div style="max-width: 279px">
@@ -61,38 +85,6 @@ const IndexPage = () => `
               searchEnabled: false,
               choices: [
                 {
-                  value: "Ресторан",
-                  label: "Ресторан",
-                  selected: true,
-                  customProperties: {
-                    icon: RestIcon({ iconColor: "var(--colorRed)" }),
-                  },
-                },
-                {
-                  value: "Ночной клуб",
-                  label: "Ночной клуб",
-                  selected: false,
-                  customProperties: {
-                    icon: MusicIcon({ iconColor: "var(--colorRed)" }),
-                  },
-                },
-                {
-                  value: "Театр",
-                  label: "Театр",
-                  selected: false,
-                  customProperties: {
-                    icon: TheatreIcon({ iconColor: "var(--colorRed)" }),
-                  },
-                },
-                {
-                  value: "Кино",
-                  label: "Кино",
-                  selected: false,
-                  customProperties: {
-                    icon: CinemaIcon({ iconColor: "var(--colorPrimary)" }),
-                  },
-                },
-                {
                   value: "Бар",
                   label: "Бар",
                   selected: false,
@@ -100,60 +92,43 @@ const IndexPage = () => `
                     icon: BarIcon({ iconColor: "var(--colorRed)" }),
                   },
                 },
+                {
+                  value: "Ресторан",
+                  label: "Ресторан",
+                  selected: true,
+                  customProperties: {
+                    icon: RestIcon({ iconColor: "var(--colorOrange)" }),
+                  },
+                },
+                {
+                  value: "Театр",
+                  label: "Театр",
+                  selected: false,
+                  customProperties: {
+                    icon: TheatreIcon({ iconColor: "var(--colorViolet)" }),
+                  },
+                },
+                {
+                  value: "Кино",
+                  label: "Кино",
+                  selected: false,
+                  customProperties: {
+                    icon: CinemaIcon({ iconColor: "var(--colorGreenLime)" }),
+                  },
+                },
+                {
+                  value: "Ночной клуб",
+                  label: "Ночной клуб",
+                  selected: false,
+                  customProperties: {
+                    icon: MusicIcon({ iconColor: "var(--colorBlueLight)" }),
+                  },
+                },                                
               ],
             },
           })}
 
-          ${CustomSelect({
-            extraAttrs: [{ name: "id", value: "select-type-mark" }],
-            cfg: {
-              preset: "fancy",
-              itemSelectText: "",
-              searchEnabled: false,
-              choices: [
-                {
-                  value: "Ресторан",
-                  label: "Ресторан",
-                  selected: true,
-                  customProperties: {
-                    icon: RestIcon({ iconColor: "var(--colorRed)" }),
-                  },
-                },
-                {
-                  value: "Ночной клуб",
-                  label: "Ночной клуб",
-                  selected: false,
-                  customProperties: {
-                    icon: MusicIcon({ iconColor: "var(--colorRed)" }),
-                  },
-                },
-                {
-                  value: "Театр",
-                  label: "Театр",
-                  selected: false,
-                  customProperties: {
-                    icon: TheatreIcon({ iconColor: "var(--colorRed)" }),
-                  },
-                },
-                {
-                  value: "Кино",
-                  label: "Кино",
-                  selected: false,
-                  customProperties: {
-                    icon: CinemaIcon({ iconColor: "var(--colorPrimary)" }),
-                  },
-                },
-                {
-                  value: "Бар",
-                  label: "Бар",
-                  selected: false,
-                  customProperties: {
-                    icon: BarIcon({ iconColor: "var(--colorRed)" }),
-                  },
-                },
-              ],
-            },
-          })}
+          
         </div>
         <div id="map1" style="width: 800px; aspect-ratio: 1 / 1"></div>
       </main>
