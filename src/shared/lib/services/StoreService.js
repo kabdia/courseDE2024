@@ -6,7 +6,7 @@ export class StoreService {
     this.actionMap = {
       addMarker: (payload) => this.store.getState().addMarker(payload),
       //добавила addMarkers, removesMarkers
-      addMarkers: (payload) => this.store.getState().addMarkersList(payload),
+      addMarkers: (payload) => this.store.getState().addMarkers(payload),
       removeMarker: (payload) => this.store.getState().removeMarker(payload),
       removeMarkers: (payload) => this.store.getState().removeMarkers(payload),
     };
