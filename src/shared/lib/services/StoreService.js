@@ -1,5 +1,8 @@
 import { createStore } from "#shared/store/store";
 
+/**
+ *
+ */
 export class StoreService {
   constructor(storageName) {
     this.store = createStore(storageName);
@@ -9,6 +12,7 @@ export class StoreService {
       addMarkers: (payload) => this.store.getState().addMarkers(payload),
       removeMarker: (payload) => this.store.getState().removeMarker(payload),
       removeMarkers: (payload) => this.store.getState().removeMarkers(payload),
+      setFilters: (payload) => this.store.getState().setFilters(payload),
     };
   }
 

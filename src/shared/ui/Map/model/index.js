@@ -1,3 +1,5 @@
+import Swiper from "swiper";
+import { Pagination } from "swiper/modules";
 import {
   iconsPresets,
   classNames as defaultClassNames,
@@ -7,6 +9,9 @@ import {
 import { checkMapInstance } from "../config/lib/checkMapInstance.js";
 import { getExternalScript } from "#shared/lib/utils/getExtetnalScript";
 
+/**
+ *
+ */
 export class YandexMap {
   constructor({
     containerSelector,
@@ -25,10 +30,13 @@ export class YandexMap {
     this.lang = lang;
     this.apiUrl = apiUrl;
     this.instance = null;
+    this.centerMarker = null;
     this.iconsPresets = iconsPresets;
-    this.currentBalloon = null;
     this.classNames = classNames ?? defaultClassNames;
     this.iconShapeCfg = iconShapeCfg ?? defaultIconShapeCfg;
+    this.attrs = {
+      ballon: "data-js-ballon",
+    };
   }
 
   getBallonLayout() {
@@ -50,15 +58,16 @@ export class YandexMap {
   }
 
   getBallonContent({ id, children }) {
+    const linkToCreateSwiperFn = this.createSwiperForBallon;
     if (window.ymaps) {
       const ballonContent = window.ymaps.templateLayoutFactory.createClass(
-        `<div class="${this.classNames.ballonContent}" data-js-ballon=${id}> 
+        `<div class="${this.classNames.ballonContent}" ${this.attrs.ballon}=${id}> 
             ${children}
         </div>`,
         {
           build: function () {
             ballonContent.superclass.build.call(this);
-            // this.createSwiper(ballonId); TODO: доделать.
+            linkToCreateSwiperFn(id);
           },
           clear: function () {
             ballonContent.superclass.clear.call(this);
@@ -70,26 +79,25 @@ export class YandexMap {
     throw new Error("ymaps not ready");
   }
 
-  createSwiper(ballonId) {
+  createSwiperForBallon(ballonId) {
     try {
       const ballonContainer = document.querySelector(
-        `[data-js-ballon=${ballonId}`
+        `[data-js-ballon="${ballonId}"]`
       );
-      // const swiperEl = ballonContainer.querySelector(".swiper");
-      // new Swiper(swiperEl, {
-      //   direction: "vertical",
-      //   loop: true,
-      //   pagination: {
-      //     el: ".swiper-pagination",
-      //   },
-      //   navigation: {
-      //     nextEl: ".swiper-button-next",
-      //     prevEl: ".swiper-button-prev",
-      //   },
-      //   scrollbar: {
-      //     el: ".swiper-scrollbar",
-      //   },
-      // });
+      const swiperEl = ballonContainer.querySelector(".swiper");
+      const swiperPagination =
+        ballonContainer.querySelector(".swiper-pagination");
+      if (swiperEl && swiperPagination) {
+        new Swiper(swiperEl, {
+          slidesPerView: 1,
+          direction: "horizontal",
+          modules: [Pagination],
+          pagination: {
+            el: swiperPagination,
+            clickable: true,
+          },
+        });
+      }
     } catch (e) {
       console.error(e);
     }
@@ -120,6 +128,7 @@ export class YandexMap {
         suppressMapOpenBlock: true, // Скрыть кнопку открытия карты на Яндексе
       }
     );
+    this.addCenterMarker();
     this.#bindEvents();
     return this.instance;
   }
@@ -172,26 +181,32 @@ export class YandexMap {
         hasBalloon: true,
         iconLayout: this.getMarkerLayout(typeMarker),
         iconShape: this.iconShapeCfg,
+        hideIconOnBalloonOpen: false,
       }
     );
 
     placemark.events.add("click", (event) => {
+      if (this.instance.balloon.isOpen()) {
+        return;
+      }
       if (onClick && typeof onClick === "function") onClick(id, event);
     });
 
-    placemark.events.add("balloonopen", () => {
-      // Если на карте уже открыт балун, закрываем его
-      if (this.currentBalloon) {
-        this.currentBalloon.balloon.close();
-      }
-      // Обновляем ссылку на текущий открытый балун
-      this.currentBalloon = placemark;
-    });
-    placemark.events.add("balloonclose", () => {
-      this.currentBalloon = null;
-    });
-
     this.instance.geoObjects.add(placemark);
+  }
+
+  @checkMapInstance
+  addCenterMarker() {
+    try {
+      const centerMarker = document.createElement("div");
+      centerMarker.className = this.classNames["centerMarker"];
+      centerMarker.innerHTML = this.iconsPresets["centerMarker"];
+      document.querySelector(this.containerSelector)?.appendChild(centerMarker);
+      this.centerMarker = centerMarker;
+      console.debug(this.centerMarker);
+    } catch (e) {
+      console.error("Ошибка при добавлении центральной метки:", e);
+    }
   }
 
   handleMarkerClick(id, e) {
@@ -205,7 +220,7 @@ export class YandexMap {
     document.dispatchEvent(customEvent);
   }
 
-  renderCustomBallon(id, mark, info) {
+  updateBallonContent(id, mark, info) {
     mark.options.set(
       "balloonContentLayout",
       this.getBallonContent({
@@ -216,8 +231,27 @@ export class YandexMap {
   }
 
   getLayoutContentForBallon(info) {
-    console.debug("Вот здесь мы начинаем формировать верстку"); //TODO: ДЗ, сделать верстку балуна и вернуть ее
-    return "<p>Что-то будет</p>";
+    const {
+      type,
+      title,
+      address: { city, house, street },
+    } = info;
+    const slides = info.images
+      .map(
+        (image, index) =>
+          `<div class="swiper-slide"><img src="${image}" alt="${info.title} - Slide ${index + 1}"></div>`
+      )
+      .join("");
+    return `<div class="swiper">
+              <div class="swiper-wrapper">
+                ${slides}
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+            <h3>${title}</h3>
+            <div>${this.iconsPresets[type]}</div>
+            <p>${city},${street}, ${house}</p>
+            `;
   }
 
   @checkMapInstance
@@ -234,16 +268,9 @@ export class YandexMap {
     });
   }
 
-  handleCloseCurrentBallon() {
-    if (this.currentBalloon) {
-      this.currentBalloon.balloon.close();
-    }
-    this.currentBalloon = null;
-  }
-
   #bindEvents() {
-    this.instance.events.add("click", () => {
-      this.handleCloseCurrentBallon(); //TODO: а надо ли? надо подумать
+    this.instance.events.add("click", (e) => {
+      this.instance.balloon.close();
     });
   }
 }
