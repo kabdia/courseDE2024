@@ -26,7 +26,7 @@ export class MapApp {
       apiKey: this.apiKey,
       lang: "ru_RU",
       center: [53.5, 53.9],
-      zoom: 10,
+      zoom: 13,
     });
     this.loadAndUpdateFilters(); //подгружаем инфу по конфигу фильтров
     this.filterManager = new FilterManager({

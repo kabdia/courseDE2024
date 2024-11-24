@@ -31,7 +31,7 @@ export class YandexMap {
     this.lang = lang;
     this.apiUrl = apiUrl;
     this.instance = null;
-    this.centerMarker = null;
+    this.centerMarker = null; //Центральная иконка на карте
     this.iconsPresets = iconsPresets;
     this.classNames = classNames ?? defaultClassNames;
     this.iconShapeCfg = iconShapeCfg ?? defaultIconShapeCfg;
@@ -85,9 +85,11 @@ export class YandexMap {
       const ballonContainer = document.querySelector(
         `[data-js-ballon="${ballonId}"]`
       );
+
       const swiperEl = ballonContainer.querySelector(".swiper");
       const swiperPagination =
         ballonContainer.querySelector(".swiper-pagination");
+
       if (swiperEl && swiperPagination) {
         new Swiper(swiperEl, {
           slidesPerView: 1,
@@ -111,6 +113,7 @@ export class YandexMap {
          ${this.iconsPresets[typeMarker] ? this.iconsPresets[typeMarker] : typeMarker}
        </div>`
       );
+
       return customLayout;
     }
     throw new Error("ymaps not ready");
@@ -212,12 +215,14 @@ export class YandexMap {
 
   handleMarkerClick(id, e) {
     const targetPlacemark = e.get("target");
+
     const customEvent = new CustomEvent(yandexMapCustomEventNames.markClicked, {
       detail: {
         id,
         mark: targetPlacemark,
       },
     });
+
     this.containerMap.dispatchEvent(customEvent);
   }
 
@@ -243,6 +248,7 @@ export class YandexMap {
           `<div class="swiper-slide"><img src="${image}" alt="${info.title} - Slide ${index + 1}"></div>`
       )
       .join("");
+
     return `<div class="swiper">
               <div class="swiper-wrapper">
                 ${slides}
@@ -267,6 +273,15 @@ export class YandexMap {
         },
       });
     });
+  }
+
+  @checkMapInstance
+  centerMapByCords(cords, zoom = 15) {
+    try {
+      this.instance.setCenter(cords, zoom);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   #bindEvents() {

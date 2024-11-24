@@ -4,6 +4,8 @@
   --yandexMapBallonLayoutMinHeight: 10rem;
   --yandexMapBallonContentBgColor: var(--colorWhite);
   --yandexMapBallonLayoutPd: 2px;
+  position: relative;
+
   &__mark {
     display: flex;
     justify-content: center;
@@ -15,7 +17,8 @@
     transition: all 0.3s;
     box-shadow: var(--boxShadowDefault);
   }
-  &__ballonLayout {
+
+  & {
     position: relative;
     width: var(--yandexMapBallonLayoutWidth);
     min-height: var(--yandexMapBallonLayoutMinHeight);
@@ -26,7 +29,19 @@
     border-radius: 2rem;
     box-shadow: var(--boxShadowDefault);
   }
-  &__ballonContent {    
+
+  &__ballonContent {
     max-width: 37.5rem;
+    background-color: var(--colorWhite);
+  }
+
+  &__centerMarker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4rem;
+    height: 4rem;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
   }
 }

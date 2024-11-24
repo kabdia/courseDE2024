@@ -27,11 +27,15 @@ const IndexPage = () => `
       <header>        
       </header>
       <main>       
-        <div class="isFlex mb16 gap8">
-        <!--  ${Button({ text: "Да", iconSlot: CheckIcon(), extraClasses: ["btn--isGreenLightIcon"] })}
-          ${Button({ text: "Нет", iconSlot: CancelIcon(), extraClasses: ["btn--isRedIcon"] })}-->
-        </div>
-        <div class="isFlex mb16 gap8">
+        <!-- кнопки для окон <div class="isFlex mb16 gap8">
+        ${Button({ text: "Да", iconSlot: CheckIcon(), extraClasses: ["btn--isGreenLightIcon"] })}
+          ${Button({ text: "Нет", iconSlot: CancelIcon(), extraClasses: ["btn--isRedIcon"] })}
+        </div>-->
+        <div class="main__panelControl">
+          <div class="panelControl__input">
+            <input class="input-style" type="search" id="searchAddress" placeholder="Введите адрес"/>
+          </div>
+          <div class="panelControl__switches">
           ${Switch({
             label: "Бары",
             extraClasses: ["switch--isRightLabel"],
@@ -73,11 +77,9 @@ const IndexPage = () => `
               { name: "form", value: "formAuth" },
             ],
           })}
-          
-          
+          </div>  
         </div>
-
-        <div style="max-width: 279px">
+        <!--<div style="max-width: 279px">
           ${CustomSelect({
             extraAttrs: [{ name: "id", value: "select-type-mark" }],
             cfg: {
@@ -130,9 +132,16 @@ const IndexPage = () => `
           })}
 
           
+        </div>-->
+        <div class="main__yandexMap">
+          <div id="map1" class="yandexMap__cart"></div>
+          <div class="yandexMap__panel">
+            тут кнопки
+          </div>
         </div>
-        <div id="map1" class="yandexMap" style="width: 800px; aspect-ratio: 1 / 1"></div>
-      </main>
+        
+        
+        </main>
     </body>
   </html>
 `;
