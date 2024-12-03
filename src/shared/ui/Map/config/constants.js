@@ -1,4 +1,11 @@
-import { BarIcon, CenterMapIcon } from "#shared/ui/Icons/index.js";
+import {
+  BarIcon,
+  CenterMapIcon,
+  CinemaIcon,
+  MusicIcon,
+  RestIcon,
+  TheatreIcon,
+} from "#shared/ui/Icons/index.js";
 
 export const classNames = {
   ballonContent: "yandexMap__ballonContent",
@@ -13,11 +20,11 @@ export const iconShapeCfg = {
 };
 
 export const iconsPresets = {
-  ["1"]: BarIcon({ iconColor: "var(--colorRed)" }),
-  ["2"]: BarIcon({ iconColor: "var(--colorRed)" }),
-  ["3"]: BarIcon({ iconColor: "var(--colorRed)" }),
-  ["4"]: BarIcon({ iconColor: "var(--colorRed)" }),
-  ["5"]: BarIcon({ iconColor: "var(--colorRed)" }),
+  bars: BarIcon({ iconColor: "var(--colorRed)" }),
+  cinema: CinemaIcon({ iconColor: "var(--colorGreenLime)" }),
+  theatre: TheatreIcon({ iconColor: "var(--colorViolet)" }),
+  restaurant: RestIcon({ iconColor: "var(--colorOrange)" }),
+  trk: MusicIcon({ iconColor: "var(--colorBlueLight)" }),
   centerMarker: CenterMapIcon({ iconColor: "var(--colorGray)" }),
 };
 

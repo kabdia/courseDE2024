@@ -1,3 +1,4 @@
+import { PlaceSwitchGroup } from "#features/PlaceSwitchGroup";
 import { Button } from "#shared/ui/Button/index";
 import { CustomSelect } from "#shared/ui/CustomSelect/index";
 import {
@@ -9,7 +10,6 @@ import {
   MusicIcon,
   TheatreIcon,
 } from "#shared/ui/Icons/index";
-import { Switch } from "#shared/ui/Switch/index";
 
 /**
  * Страница приложения
@@ -31,54 +31,7 @@ const IndexPage = () => `
         ${Button({ text: "Да", iconSlot: CheckIcon(), extraClasses: ["btn--isGreenLightIcon"] })}
           ${Button({ text: "Нет", iconSlot: CancelIcon(), extraClasses: ["btn--isRedIcon"] })}
         </div>-->
-        <div class="main__panelControl">
-          <div class="panelControl__input">
-            <input class="input-style" type="search" id="searchAddress" placeholder="Введите адрес"/>
-          </div>
-          <div class="panelControl__switches">
-          ${Switch({
-            label: "Бары",
-            extraClasses: ["switch--isRightLabel"],
-            extraInputAttrs: [
-              { name: "name", value: "rememberMe" },
-              { name: "form", value: "formAuth" },
-            ],
-          })}
-          ${Switch({
-            label: "Рестораны",
-            extraClasses: ["switch--isRightLabel"],
-            extraInputAttrs: [
-              { name: "name", value: "rememberMe" },
-              { name: "form", value: "formAuth" },
-              { name: "checked", value: "true" },
-            ],
-          })}
-          ${Switch({
-            label: "ТРК",
-            extraClasses: ["switch--isRightLabel"],
-            extraInputAttrs: [
-              { name: "name", value: "rememberMe" },
-              { name: "form", value: "formAuth" },
-            ],
-          })}
-          ${Switch({
-            label: "Театры",
-            extraClasses: ["switch--isRightLabel"],
-            extraInputAttrs: [
-              { name: "name", value: "rememberMe" },
-              { name: "form", value: "formAuth" },
-            ],
-          })}
-          ${Switch({
-            label: "Кино",
-            extraClasses: ["switch--isRightLabel"],
-            extraInputAttrs: [
-              { name: "name", value: "rememberMe" },
-              { name: "form", value: "formAuth" },
-            ],
-          })}
-          </div>  
-        </div>
+        
         <!--<div style="max-width: 279px">
           ${CustomSelect({
             extraAttrs: [{ name: "id", value: "select-type-mark" }],
@@ -133,6 +86,7 @@ const IndexPage = () => `
 
           
         </div>-->
+        ${PlaceSwitchGroup()}
         <div class="main__yandexMap">
           <div id="map1" class="yandexMap__cart"></div>
           <div class="yandexMap__panel">
@@ -142,6 +96,13 @@ const IndexPage = () => `
         
         
         </main>
+
+         <div id="modalSuccess">
+          <p>Успешно!</p>
+        </div>
+        <div id="modalError">
+          <p>Не успешно!</p>
+      </div>
     </body>
   </html>
 `;

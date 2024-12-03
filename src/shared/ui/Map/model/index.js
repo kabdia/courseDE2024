@@ -8,7 +8,7 @@ import {
 } from "../config/constants.js";
 import { checkMapInstance } from "../config/lib/checkMapInstance.js";
 import { getExternalScript } from "#shared/lib/utils/getExtetnalScript";
-
+import { DeleteMarkBtn } from "#features/Marks/DeleteMark/index.js";
 /**
  *
  */
@@ -16,8 +16,8 @@ export class YandexMap {
   constructor({
     containerSelector,
     apiKey,
-    center = [45.751574, 37.573856],
-    zoom = 10,
+    center = [61.4, 55.1],
+    zoom = 5,
     lang = "ru_RU",
     apiUrl = "https://api-maps.yandex.ru/2.1/?apikey",
     classNames,
@@ -207,7 +207,6 @@ export class YandexMap {
       centerMarker.innerHTML = this.iconsPresets["centerMarker"];
       this.containerMap.appendChild(centerMarker);
       this.centerMarker = centerMarker;
-      console.debug(this.centerMarker);
     } catch (e) {
       console.error("Ошибка при добавлении центральной метки:", e);
     }
@@ -236,7 +235,7 @@ export class YandexMap {
     );
   }
 
-  getLayoutContentForBallon(info) {
+  getLayoutContentForBallon(id, info) {
     const {
       type,
       title,
@@ -258,11 +257,13 @@ export class YandexMap {
             <h3>${title}</h3>
             <div>${this.iconsPresets[type]}</div>
             <p>${city},${street}, ${house}</p>
+             ${DeleteMarkBtn({ markId: id })}
             `;
   }
 
   @checkMapInstance
   renderMarks(marks) {
+    this.clearMap(); //очистка перед рендером
     marks.forEach((mark) => {
       this.addMark({
         id: mark.id,
@@ -273,6 +274,11 @@ export class YandexMap {
         },
       });
     });
+  }
+
+  @checkMapInstance
+  clearMap() {
+    this.instance.geoObjects.removeAll();
   }
 
   @checkMapInstance
