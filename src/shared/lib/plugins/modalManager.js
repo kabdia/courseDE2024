@@ -1,4 +1,6 @@
 import { Fancybox } from "@fancyapps/ui";
+import { ConfirmModal } from "#features/ConfirmModal";
+
 /**
  * Класс для управления модальными окнами с использованием Fancybox (Singleton).
  */
@@ -15,13 +17,14 @@ export class ModalManager {
     if (ModalManager.instance) {
       return ModalManager.instance;
     }
+
     this.defaultOptions = {
       animationClass: "fade", // Класс для анимации
-      overlayColor: "rgba(0, 0, 0, 0.7)", // Цвет подложки
       trapFocus: false, // Настройка фокуса
       defaultType: "html",
       ...options,
     };
+
     ModalManager.instance = this;
   }
 
@@ -30,6 +33,7 @@ export class ModalManager {
       ...this.defaultOptions,
       ...options,
     };
+
     try {
       Fancybox.show([{ src, type: options.type || "html" }], finalOptions);
     } catch (error) {
@@ -41,19 +45,18 @@ export class ModalManager {
     message,
     onConfirm = () => {},
     onCancel = () => {},
+    options = {},
   } = {}) {
-    //TODO: можно вынести в shared/ui/ConfirmModal
-    const content = `
-      <div class="confirmModal">
-        <p>${message}</p>
-        <div class="modal-buttons">
-          <button data-js-confirm-btn class="btn btn--isConfirm">Да</button>
-          <button data-js-cancel-btn class="btn btn--isCancel">Нет</button>
-        </div>
-      </div>
-    `;
-    Fancybox.show([{ src: content, type: "html" }], {
+    const finalOptions = {
       ...this.defaultOptions,
+      ...options,
+      closeButton: false,
+    };
+
+    const content = ConfirmModal({ message });
+
+    Fancybox.show([{ src: content, type: "html" }], {
+      ...finalOptions,
       on: {
         reveal: () => {
           try {
@@ -64,6 +67,7 @@ export class ModalManager {
                 console.debug("сonfirm");
                 onConfirm();
               });
+
             document
               .querySelector(ModalManager.selectors.fancyboxContent)
               .querySelector(ModalManager.selectors.cancelBtn)

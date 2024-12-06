@@ -7,8 +7,10 @@ import {
   iconShapeCfg as defaultIconShapeCfg,
 } from "../config/constants.js";
 import { checkMapInstance } from "../config/lib/checkMapInstance.js";
-import { getExternalScript } from "#shared/lib/utils/getExtetnalScript";
 import { DeleteMarkBtn } from "#features/Marks/DeleteMark/index.js";
+import { UpdateMarkBtn } from "#features/Marks/UpdateMark/ui/UpdateMark.js";
+import { getExternalScript } from "#shared/lib/utils/getExtetnalScript";
+
 /**
  *
  */
@@ -16,8 +18,8 @@ export class YandexMap {
   constructor({
     containerSelector,
     apiKey,
-    center = [61.4, 55.1],
-    zoom = 5,
+    center = [45.751574, 37.573856],
+    zoom = 10,
     lang = "ru_RU",
     apiUrl = "https://api-maps.yandex.ru/2.1/?apikey",
     classNames,
@@ -248,6 +250,7 @@ export class YandexMap {
       )
       .join("");
 
+    // TODO: вынести в отдельный entities/ballon и вызывать ui (в качестве слотов будут передавать две фичи - удалить / редактировать)
     return `<div class="swiper">
               <div class="swiper-wrapper">
                 ${slides}
@@ -257,7 +260,8 @@ export class YandexMap {
             <h3>${title}</h3>
             <div>${this.iconsPresets[type]}</div>
             <p>${city},${street}, ${house}</p>
-             ${DeleteMarkBtn({ markId: id })}
+            ${DeleteMarkBtn({ markId: id })}
+            ${UpdateMarkBtn({ markInfo: info })}
             `;
   }
 

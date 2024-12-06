@@ -26,12 +26,7 @@ const IndexPage = () => `
     <body>
       <header>        
       </header>
-      <main>       
-        <!-- кнопки для окон <div class="isFlex mb16 gap8">
-        ${Button({ text: "Да", iconSlot: CheckIcon(), extraClasses: ["btn--isGreenLightIcon"] })}
-          ${Button({ text: "Нет", iconSlot: CancelIcon(), extraClasses: ["btn--isRedIcon"] })}
-        </div>-->
-        
+      <main> 
         <!--<div style="max-width: 279px">
           ${CustomSelect({
             extraAttrs: [{ name: "id", value: "select-type-mark" }],
@@ -88,20 +83,13 @@ const IndexPage = () => `
         </div>-->
         ${PlaceSwitchGroup()}
         <div class="main__yandexMap">
-          <div id="map1" class="yandexMap__cart"></div>
-          <div class="yandexMap__panel">
-            тут кнопки
-          </div>
-        </div>
-        
-        
+          <div id="map1" class="yandexMap__cart"></div>          
+        </div>      
         </main>
 
-         <div id="modalSuccess">
-          <p>Успешно!</p>
-        </div>
-        <div id="modalError">
-          <p>Не успешно!</p>
+        <form>
+        </form>
+         
       </div>
     </body>
   </html>
