@@ -1,6 +1,6 @@
+/* eslint-disable no-restricted-imports */
 import { getResponseMock } from "./lib/index.js";
 import { API_ENDPOINTS } from "../config/constants.js";
-// eslint-disable-next-line no-restricted-imports
 import {
   filerCfg,
   listMarsMockResponse as listMarks,

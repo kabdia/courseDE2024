@@ -7,8 +7,10 @@ import {
   iconShapeCfg as defaultIconShapeCfg,
 } from "../config/constants.js";
 import { checkMapInstance } from "../config/lib/checkMapInstance.js";
+// eslint-disable-next-line no-restricted-imports
 import { DeleteMarkBtn } from "#features/Marks/DeleteMark/index.js";
-import { UpdateMarkBtn } from "#features/Marks/UpdateMark/ui/UpdateMark.js";
+// eslint-disable-next-line no-restricted-imports
+import { UpdateMarkBtn } from "#features/Marks/UpdateMark/ui/Updatemark.js";
 import { getExternalScript } from "#shared/lib/utils/getExtetnalScript";
 
 /**
@@ -241,7 +243,7 @@ export class YandexMap {
     const {
       type,
       title,
-      address: { city, house, street },
+      address: { house, street },
     } = info;
     const slides = info.images
       .map(
@@ -250,18 +252,37 @@ export class YandexMap {
       )
       .join("");
 
-    // TODO: вынести в отдельный entities/ballon и вызывать ui (в качестве слотов будут передавать две фичи - удалить / редактировать)
-    return `<div class="swiper">
-              <div class="swiper-wrapper">
-                ${slides}
+    function getNameType(type) {
+      let names = {
+        bars: "Бар",
+        restaurant: "Ресторан",
+        club: "Клуб",
+        theatre: "Театр",
+        cinema: "Кино",
+      };
+
+      return names[type];
+    }
+    return `<div class="container-ballon">
+              <div class="swiper">
+                <div class="swiper-wrapper">
+                 ${slides}
+                </div>
+               <div class="swiper-pagination"></div>
               </div>
-              <div class="swiper-pagination"></div>
+              <div class="swiper__description">
+               <h3 class="description_title">${title}</h3>
+               <div class="description_type">${this.iconsPresets[type]}${getNameType(type)}</div>
+               <p class="description_address">${street}, ${house}</p>
+              <div class="swiper__control">
+                <div class="swiper__delete">
+                  ${DeleteMarkBtn({ markId: id })}
+                </div>
+                <div class="swiper__update">
+                  ${UpdateMarkBtn({ markInfo: info })}
+                </div>
+              </div>
             </div>
-            <h3>${title}</h3>
-            <div>${this.iconsPresets[type]}</div>
-            <p>${city},${street}, ${house}</p>
-            ${DeleteMarkBtn({ markId: id })}
-            ${UpdateMarkBtn({ markInfo: info })}
             `;
   }
 

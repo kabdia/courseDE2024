@@ -24,7 +24,7 @@ export const iconsPresets = {
   cinema: CinemaIcon({ iconColor: "var(--colorGreenLime)" }),
   theatre: TheatreIcon({ iconColor: "var(--colorViolet)" }),
   restaurant: RestIcon({ iconColor: "var(--colorOrange)" }),
-  trk: MusicIcon({ iconColor: "var(--colorBlueLight)" }),
+  club: MusicIcon({ iconColor: "var(--colorBlueLight)" }),
   centerMarker: CenterMapIcon({ iconColor: "var(--colorGray)" }),
 };
 

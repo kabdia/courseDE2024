@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-imports
 import { FilterManager } from "#features/Filter/model/index";
 import { API_ENDPOINTS } from "#shared/config/constants";
 import { yandexMapCustomEventNames } from "#shared/ui/Map/config/constants";
